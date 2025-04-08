@@ -52,8 +52,8 @@ router.get("/products/:id", [jwtAuthorization], async function (req, res, next) 
   try {
    let products =await productSchema.findById({_id:id,customer:userId});
    if(!products){
-    return res.status(400).send({
-      status: 400,
+    return res.status(500).send({
+      status: 500,
       message: "ไม่พบข้อมูลสินค้า",
       data: null,
     });
@@ -65,8 +65,8 @@ router.get("/products/:id", [jwtAuthorization], async function (req, res, next) 
       data: products,
     });
   } catch (error) {
-    res.status(500).send({
-      status: 500,
+    res.status(400).send({
+      status: 400,
       message: "ขอข้อมูลสินค้าไม่สำเร็จ",
       data: [],
     });
@@ -88,14 +88,14 @@ router.post("/products",[jwtAuthorization, upload.single("image")],async functio
       });
       //const product = new product({productName,price,description,image,quantity});
       await product.save();
-      res.status(200).send({
-        status: 200,
+      res.status(201).send({
+        status: 201,
         message: "เพิ่มข้อมูลสินค้าสำเร็จ",
         data: product,
       });
     } catch (error) {
-      res.status(400).send({
-        status: 400,
+      res.status(401).send({
+        status: 401,
         message: "เพิ่มข้อมูลสินค้าไม่สำเร็จ",
         data: [],
       });
@@ -130,14 +130,14 @@ router.put("/products/:id", [jwtAuthorization, upload.single("image")], async fu
       }
       const upDateProduct= await productSchema.findByIdAndUpdate(id,productData,{new:true});
       
-      res.status(200).send({
-        status: 200,
+      res.status(201).send({
+        status: 201,
         message: "แก้ไขข้อมูลสินค้าสำเร็จ",
         data: upDateProduct,
       });
     } catch (error) {
-      res.status(400).send({
-        status: 400,
+      res.status(401).send({
+        status: 401,
         message: "แก้ไขข้อมูลสินค้าไม่สำเร็จ",
         data: [],
       });
@@ -209,14 +209,14 @@ const total = order.reduce((acc,curr)=>acc+curr.quantity,0);
       quantity:quantity,
     })
     await order.save();
-    res.status(200).send({
-      status: 200,
+    res.status(201).send({
+      status: 201,
       message: "เพิ่มรายการสำเร็จ",
       data: order,
     });
   } catch (error) {
-    res.status(400).send({
-      status: 400,
+    res.status(401).send({
+      status: 401,
       message: "เพิ่มรายการไม่สำเร็จ",
       data: [],
     });

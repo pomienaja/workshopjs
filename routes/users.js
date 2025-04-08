@@ -32,14 +32,14 @@ router.post("/register", async function (req, res, next) {
     });
     await user.save();
     res.status(201).send({
-      status: 200,
+      status: 201,
       message: "success",
       data: user,
       // dataEmail: user.email,
     });
   } catch (error) {
-    res.status(400).send({
-      status: 400,
+    res.status(401).send({
+      status: 401,
       message: "เพิ่มผู้ใช้งานล้มเหลว",
       dataName: user.name,
       dataEmail: user.email,
@@ -66,8 +66,8 @@ router.put("/users/:id/approve",[jwtAdmin], async function (req, res, next) {
       data: user,
     });
   } catch (error) {
-    res.status(400).send({
-      status: 400,
+    res.status(401).send({
+      status: 401,
       message: "approveล้มเหลว",
     });
   }
