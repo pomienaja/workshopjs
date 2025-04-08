@@ -34,8 +34,8 @@ router.post("/register", async function (req, res, next) {
     res.status(201).send({
       status: 200,
       message: "success",
-      dataName: user.name,
-      dataEmail: user.email,
+      data: user,
+      // dataEmail: user.email,
     });
   } catch (error) {
     res.status(400).send({
