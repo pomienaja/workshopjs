@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var userSchema = require("../models/user.model");
 var bcrypt = require("bcrypt");
+var jwtAdmin =require("../middleware/jwtAuthorizationAdmin");
 /* GET users listing. */
 router.get("/users", async function (req, res, next) {
   try {
@@ -46,7 +47,7 @@ router.post("/register", async function (req, res, next) {
   }
 });
 
-router.put("/users/:id/approve", async function (req, res, next) {
+router.put("/users/:id/approve",[jwtAdmin], async function (req, res, next) {
   let { isApprove } = req.body;
   let { id } = req.params;
   try {
