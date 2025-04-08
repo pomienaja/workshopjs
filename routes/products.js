@@ -28,7 +28,7 @@ router.get("/products", [jwtAuthorization], async function (req, res, next) {
   const userId = getUserIdFromToken(req.headers.authorization);
  
   console.log(userId);
-  //let products = await productSchema.find({});
+  
   try {
     let products =await productSchema.find({customer:userId});
     res.status(200).send({
