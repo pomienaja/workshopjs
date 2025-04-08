@@ -50,7 +50,7 @@ router.get("/products/:id", [jwtAuthorization], async function (req, res, next) 
   const{id}=req.params;
   console.log(userId);
   try {
-   let products =await productSchema.findById(id);
+   let products =await productSchema.findById({_id:id,customer:userId});
    if(!products){
     return res.status(400).send({
       status: 400,
