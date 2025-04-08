@@ -119,7 +119,7 @@ router.put("/products/:id", [jwtAuthorization, upload.single("image")], async fu
 router.delete("/products/:id",[jwtAuthorization], async function (req, res, next) {
   const userId = getUserIdFromToken(req.headers.authorization);
   const { id } = req.params;
-  //const userid
+  
   try {
    await productSchema.findByIdAndDelete(id,{customer:userId});
     res.status(200).send({
