@@ -10,7 +10,7 @@ var path = require("path");
 var getUserIdFromToken = require("../userIdFromToken");
 const jwtAuthorization = require("../middleware/jwtAuthorization");
 
-//var jwt = require("jsonwebtoken");
+
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -81,22 +81,15 @@ router.put("/products/:id", [jwtAuthorization, upload.single("image")], async fu
     const image=req.file ? req.file.filename:null;
 
     try {
-      // const product = await productSchema.findByIdAndUpdate(
-      //   id,
-      //   {
-      //     productName,
-      //     order,
-      //   },
-      //   { new: true }
-      // );
+    
       const product =await productSchema.findById(id,{customer:userId})
-      // if(!product){
-      //   return res.status(500).send({
-      //     status: 500,
-      //     message: "ไม่พบข้อมูลสินค้า",
-      //     data: [],
-      //   });
-      // }
+      if(!product){
+        return res.status(500).send({
+          status: 500,
+          message: "ไม่พบข้อมูลสินค้า",
+          data: [],
+        });
+      }
       const productData = { productName, price, description, quantity, image };
       if(image){
         const oldImage = product.image;
@@ -108,7 +101,7 @@ router.put("/products/:id", [jwtAuthorization, upload.single("image")], async fu
         }
       }
       const upDateProduct= await productSchema.findByIdAndUpdate(id,productData,{new:true});
-      res.send(product);
+      
       res.status(200).send({
         status: 200,
         message: "แก้ไขข้อมูลสินค้าสำเร็จ",
@@ -162,9 +155,6 @@ router.get("/products/:id/orders",[jwtAuthorization],async function (req,res,nex
 })
 
 router.post("/products/:id/orders",[jwtAuthorization],async function (req, res, next) {
-  //const { productName, price, description, quantity } = req.body;
-  //const image = req.file ? req.file.fieldname : null;
- // const userId = getUserIdFromToken(req.headers.authorization);
 const {id}=req.params;
 const {quantity}=req.body;
 const order = await orderSchema.find({productId:id});
