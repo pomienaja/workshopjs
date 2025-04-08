@@ -125,7 +125,7 @@ router.delete("/products/:id",[jwtAuthorization], async function (req, res, next
     res.status(200).send({
       status: 200,
       message: "ลบข้อมูลสินค้าสำเร็จ",
-      data:productSchema
+      data:id
     });
   } catch (error) {
     res.status(400).send({
