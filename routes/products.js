@@ -156,7 +156,7 @@ router.get("/products/:id/orders",[jwtAuthorization],async function (req,res,nex
     res.status(400).send({
       status: 400,
       message: "ดึงคำสั่งซื้อไม่สำเร็จ",
-      data:orders
+      data:[]
     });
   }
 })
