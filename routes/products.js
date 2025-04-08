@@ -27,7 +27,7 @@ const upload = multer({ storage: storage });
 router.get("/products", [jwtAuthorization], async function (req, res, next) {
   const userId = getUserIdFromToken(req.headers.authorization);
  
-  console.log(userId);
+  //console.log(userId);
   
   try {
     let products =await productSchema.find({customer:userId});
@@ -39,6 +39,34 @@ router.get("/products", [jwtAuthorization], async function (req, res, next) {
   } catch (error) {
     res.status(400).send({
       status: 400,
+      message: "ขอข้อมูลสินค้าไม่สำเร็จ",
+      data: [],
+    });
+  }
+});
+
+router.get("/products/:id", [jwtAuthorization], async function (req, res, next) {
+  const userId = getUserIdFromToken(req.headers.authorization);
+  const{id}=req.params;
+  console.log(userId);
+  try {
+   let products =await productSchema.findById(id);//
+   if(!products){
+    return res.status(400).send({
+      status: 400,
+      message: "ไม่พบข้อมูลสินค้า",
+      data: null,
+    });
+   }
+
+    res.status(200).send({
+      status: 200,
+      message: "ขอข้อมูลสินค้าสำเร็จ",
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: 500,
       message: "ขอข้อมูลสินค้าไม่สำเร็จ",
       data: [],
     });
